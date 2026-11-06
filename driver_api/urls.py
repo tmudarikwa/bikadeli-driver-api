@@ -5,10 +5,12 @@ from bikadeli_common.gateway import (
     proxy_to_monolith,
     proxy_to_orders_service,
     readiness,
+    service_metadata_view,
 )
 from django.urls import include, path, re_path
 
 urlpatterns = [
+    path('internal/service-metadata/', service_metadata_view, name='driver-service-metadata'),
     path('health/', liveness, name='health-liveness'),
     path('health/ready/', readiness, name='health-readiness'),
     path('', include('driver_profiles.urls')),

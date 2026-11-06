@@ -8,6 +8,7 @@ from urllib.parse import urlsplit
 from bikadeli_common.settings import (
     configure_database,
     configure_gateway_settings,
+    configure_service_oauth,
     configure_token_verification,
     configure_upstream_url,
 )
@@ -15,6 +16,13 @@ from cryptography.fernet import Fernet
 
 configure_gateway_settings(globals(), "driver-api")
 configure_database(globals(), "driver-api")
+configure_service_oauth(
+    globals(),
+    service_name='driver-api',
+    owner_domain='drivers',
+    features=['driver_profile', 'driver_location', 'driver_kyc', 'driver_support', 'location_tracking', 'driver_workflow'],
+    downstream_services=['identity-service', 'orders-service', 'finance-service', 'admin-api'],
+)
 configure_token_verification(globals())
 configure_upstream_url(globals(), "ORDERS_SERVICE_URL", "ORDERS_SERVICE_URL")
 configure_upstream_url(globals(), "IDENTITY_SERVICE_URL", "IDENTITY_SERVICE_URL")
